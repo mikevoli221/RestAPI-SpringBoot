@@ -5,9 +5,9 @@ import java.util.Date;
 
 public class ExceptionResponse implements Serializable {
 
-    private Date timeStamp;
-    private String message;
-    private String detail;
+    private final Date timeStamp;
+    private final String message;
+    private final String detail;
 
     public ExceptionResponse(Date timeStamp, String message, String detail) {
         this.timeStamp = timeStamp;

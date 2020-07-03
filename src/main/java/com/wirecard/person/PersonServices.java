@@ -1,5 +1,7 @@
 package com.wirecard.person;
 
+import com.wirecard.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,29 +11,35 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class PersonServices {
 
-    private final AtomicLong counter = new AtomicLong();
-
-    public Person findPersonById (String id){
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Minh Hiep");
-        person.setLastName("Ho");
-        person.setAddress("HCMC, Vietnam");
-        person.setGender("Male");
-        return person;
-    }
+    @Autowired
+    PersonRepository personRepository;
 
     public List<Person> findAllPerson (){
-        List<Person> list = new ArrayList<Person>();
-        for (int i = 0; i <= 10; i++) {
-            Person person = new Person();
-            person.setId(counter.incrementAndGet());
-            person.setFirstName("Minh Hiep");
-            person.setLastName("Ho");
-            person.setAddress("HCMC, Vietnam");
-            person.setGender("Male");
-            list.add(person);
-        }
-        return list;
+        return personRepository.findAll();
     }
+
+    public Person findPersonById (Long id){
+        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this Id: " + id));
+    }
+
+    public Person createPerson(Person person){
+        return personRepository.save(person);
+    }
+
+    public Person updatePerson(Person person){
+        Person entity = findPersonById(person.getId());
+
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+
+        return personRepository.save(entity);
+    }
+
+    public void deletePerson(Long id){
+        Person person = findPersonById(id);
+        personRepository.delete(person);
+    }
+
 }
