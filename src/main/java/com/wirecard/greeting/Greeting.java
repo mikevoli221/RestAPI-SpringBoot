@@ -1,5 +1,8 @@
 package com.wirecard.greeting;
 
+import lombok.Data;
+
+@Data
 public class Greeting {
     private final long id;
     private final String content;
@@ -9,11 +12,4 @@ public class Greeting {
         this.content = content;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
 }

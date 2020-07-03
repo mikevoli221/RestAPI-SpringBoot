@@ -1,10 +1,9 @@
 package com.wirecard.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -14,29 +13,30 @@ public class PersonController {
     @Autowired
     private PersonServices services;
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
     public Person findPersonById(@PathVariable("id") Long id){
         return services.findPersonById(id);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<Person> findAllPerson(){
         return services.findAllPerson();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public Person createPerson (@RequestBody Person person){
         return services.createPerson(person);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping
     public Person updatePerson (@RequestBody Person person){
         return services.updatePerson(person);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public void deletePerson(@PathVariable("id") Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePerson(@PathVariable("id") Long id){
         services.deletePerson(id);
+        return ResponseEntity.ok().build();
     }
 
 }
