@@ -25,31 +25,31 @@ public class PersonServices {
     }
 
     public PersonDTO findPersonById (Long id){
-        Person person = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this Id: " + id));
-        return DozerConverter.parseObject(person, PersonDTO.class);
+        var entity = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this Id: " + id));
+        return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
     public PersonDTO createPerson(PersonDTO personDTO){
         logger.debug("Original - PersonDTO: " + Utils.parseObjectToJson(personDTO));
 
-        Person entity = DozerConverter.parseObject(personDTO, Person.class);
+        var entity = DozerConverter.parseObject(personDTO, Person.class);
         logger.debug("Destination - Person: " + Utils.parseObjectToJson(entity));
 
-        Person person = personRepository.save(entity);
-        return DozerConverter.parseObject(person, PersonDTO.class);
+        entity = personRepository.save(entity);
+        return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
     public PersonDTO updatePerson(PersonDTO personDTO){
-        PersonDTO dto = findPersonById(personDTO.getId());
-        Person entity = DozerConverter.parseObject(dto, Person.class);
+        var dto = findPersonById(personDTO.getId());
+        var entity = DozerConverter.parseObject(dto, Person.class);
         entity = personRepository.save(entity);
         return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
     public void deletePerson(Long id){
-        PersonDTO dto = findPersonById(id);
-        Person person = DozerConverter.parseObject(dto, Person.class);
-        personRepository.delete(person);
+        var dto = findPersonById(id);
+        var entity = DozerConverter.parseObject(dto, Person.class);
+        personRepository.delete(entity);
     }
 
 }
