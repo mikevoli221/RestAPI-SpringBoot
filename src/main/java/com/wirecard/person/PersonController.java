@@ -1,5 +1,8 @@
 package com.wirecard.person;
 
+import com.wirecard.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,27 +13,29 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
+    private static Logger logger = LoggerFactory.getLogger(PersonController.class);
+
     @Autowired
     private PersonServices services;
 
     @GetMapping("/{id}")
-    public Person findPersonById(@PathVariable("id") Long id){
+    public PersonDTO findPersonById(@PathVariable("id") Long id){
         return services.findPersonById(id);
     }
 
     @GetMapping
-    public List<Person> findAllPerson(){
+    public List<PersonDTO> findAllPerson(){
         return services.findAllPerson();
     }
 
     @PostMapping
-    public Person createPerson (@RequestBody Person person){
-        return services.createPerson(person);
+    public PersonDTO createPerson (@RequestBody PersonDTO personDTO){
+        return services.createPerson(personDTO);
     }
 
     @PutMapping
-    public Person updatePerson (@RequestBody Person person){
-        return services.updatePerson(person);
+    public PersonDTO updatePerson (@RequestBody PersonDTO personDTO){
+        return services.updatePerson(personDTO);
     }
 
     @DeleteMapping("/{id}")
