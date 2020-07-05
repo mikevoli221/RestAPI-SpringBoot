@@ -1,6 +1,5 @@
 package com.wirecard.person;
 
-import com.wirecard.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

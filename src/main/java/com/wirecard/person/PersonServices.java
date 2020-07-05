@@ -1,7 +1,5 @@
 package com.wirecard.person;
 
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
-import com.github.dozermapper.core.Mapper;
 import com.wirecard.exception.ResourceNotFoundException;
 import com.wirecard.util.DozerConverter;
 import com.wirecard.util.Utils;
@@ -40,15 +38,19 @@ public class PersonServices {
     }
 
     public PersonDTO updatePerson(PersonDTO personDTO){
-        var dto = findPersonById(personDTO.getId());
-        var entity = DozerConverter.parseObject(dto, Person.class);
+        var entity = personRepository.findById(personDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("No record found for this Id: " + personDTO.getId()));
+
+        entity.setFirstName(personDTO.getPersonFirstName());
+        entity.setLastName(personDTO.getPersonLastName());
+        entity.setAddress(personDTO.getPersonAddress());
+        entity.setGender(personDTO.getPersonGender());
+
         entity = personRepository.save(entity);
         return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
     public void deletePerson(Long id){
-        var dto = findPersonById(id);
-        var entity = DozerConverter.parseObject(dto, Person.class);
+        var entity = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this Id: " + id));
         personRepository.delete(entity);
     }
 
