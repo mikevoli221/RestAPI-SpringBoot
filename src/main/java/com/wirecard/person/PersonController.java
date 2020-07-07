@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/v1/person")
 public class PersonController {
 
     private static Logger logger = LoggerFactory.getLogger(PersonController.class);

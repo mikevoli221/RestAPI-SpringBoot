@@ -32,6 +32,7 @@ dependencies {
 
 	compile 'com.google.code.gson:gson:2.8.6'
 
+	compile "org.flywaydb:flyway-core:6.5.0"
 }
 
 test {
