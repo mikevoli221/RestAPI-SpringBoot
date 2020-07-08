@@ -1,4 +1,4 @@
-package com.wirecard.person;
+package com.ez2pay.person;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

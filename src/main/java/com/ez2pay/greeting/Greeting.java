@@ -1,4 +1,4 @@
-package com.wirecard.greeting;
+package com.ez2pay.greeting;
 
 import lombok.Data;
 

@@ -3,8 +3,8 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
     <mapping>
-        <class-a>com.wirecard.person.PersonDTO</class-a>
-        <class-b>com.wirecard.person.Person</class-b>
+        <class-a>com.ez2pay.person.PersonDTO</class-a>
+        <class-b>com.ez2pay.person.Person</class-b>
         <field>
             <a>personFirstName</a>
             <b>firstName</b>

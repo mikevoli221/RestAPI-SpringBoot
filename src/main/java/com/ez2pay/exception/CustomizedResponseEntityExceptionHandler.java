@@ -1,4 +1,4 @@
-package com.wirecard.exception;
+package com.ez2pay.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

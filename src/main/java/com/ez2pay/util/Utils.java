@@ -1,4 +1,4 @@
-package com.wirecard.util;
+package com.ez2pay.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

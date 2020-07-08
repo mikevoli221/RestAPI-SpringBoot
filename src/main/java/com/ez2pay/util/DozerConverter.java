@@ -1,4 +1,4 @@
-package com.wirecard.util;
+package com.ez2pay.util;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;

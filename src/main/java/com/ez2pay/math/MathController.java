@@ -1,7 +1,7 @@
-package com.wirecard.math;
+package com.ez2pay.math;
 
-import com.wirecard.exception.MathOperationException;
-import com.wirecard.util.Utils;
+import com.ez2pay.exception.MathOperationException;
+import com.ez2pay.util.Utils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

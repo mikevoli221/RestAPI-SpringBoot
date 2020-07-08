@@ -1,4 +1,4 @@
-package com.wirecard.greeting;
+package com.ez2pay.greeting;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

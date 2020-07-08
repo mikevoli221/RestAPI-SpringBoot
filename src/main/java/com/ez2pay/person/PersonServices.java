@@ -1,8 +1,8 @@
-package com.wirecard.person;
+package com.ez2pay.person;
 
-import com.wirecard.exception.ResourceNotFoundException;
-import com.wirecard.util.DozerConverter;
-import com.wirecard.util.Utils;
+import com.ez2pay.util.Utils;
+import com.ez2pay.exception.ResourceNotFoundException;
+import com.ez2pay.util.DozerConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

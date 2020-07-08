@@ -1,4 +1,4 @@
-package com.wirecard.exception;
+package com.ez2pay.exception;
 
 import java.io.Serializable;
 import java.util.Date;
