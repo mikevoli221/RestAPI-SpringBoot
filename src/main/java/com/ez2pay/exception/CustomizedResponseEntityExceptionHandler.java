@@ -21,7 +21,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({MathOperationException.class, ResourceNotFoundException.class})
+    @ExceptionHandler({ResourceNotFoundException.class})
     public final ResponseEntity<ExceptionResponse> handleBadRequestException (Exception ex, WebRequest request){
         ex.printStackTrace();
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));

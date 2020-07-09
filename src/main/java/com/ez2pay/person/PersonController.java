@@ -3,6 +3,7 @@ package com.ez2pay.person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,9 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public PersonDTO findPersonById(@PathVariable("id") Long id){
-        return services.findPersonById(id);
+        PersonDTO person = services.findPersonById(id);
+        person.add(linkTo(methodOn(PersonController.class).findPersonById(id)).withSelfRel());
+        return person;
     }
 
     @GetMapping
