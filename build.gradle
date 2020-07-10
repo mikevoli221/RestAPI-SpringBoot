@@ -35,6 +35,7 @@ dependencies {
 	compile group: 'com.github.dozermapper', name: 'dozer-spring-boot-starter', version: '6.5.0'
 
 	compile 'com.google.code.gson:gson:2.8.6'
+	compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.1"
 
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'org.postgresql:postgresql'

@@ -1,11 +1,7 @@
 package com.ez2pay.person;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
-
 import java.io.Serializable;
 
 /*
