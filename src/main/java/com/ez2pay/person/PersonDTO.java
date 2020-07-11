@@ -2,6 +2,9 @@ package com.ez2pay.person;
 
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /*
@@ -17,12 +20,20 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 
     private Long id;  //we use 'key' here because Spring HATEOAS has the same Id key.
 
+    @NotBlank
+    @Size(min = 1, max = 80)
     private String personFirstName;
 
+    @NotBlank
+    @Size(min = 1, max = 80)
     private String personLastName;
 
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String personAddress;
 
+    @NotBlank
+    @Size(min = 1, max = 6)
     private String personGender;
 
     public PersonDTO() {

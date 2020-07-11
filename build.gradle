@@ -34,6 +34,8 @@ dependencies {
 	compile group: 'com.github.dozermapper', name: 'dozer-core', version: '6.5.0'
 	compile group: 'com.github.dozermapper', name: 'dozer-spring-boot-starter', version: '6.5.0'
 
+	implementation 'org.springdoc:springdoc-openapi-ui:1.4.3'
+
 	compile 'com.google.code.gson:gson:2.8.6'
 	compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.1"
 
