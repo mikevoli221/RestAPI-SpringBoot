@@ -1,12 +1,16 @@
 package com.ez2pay.person;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "person")
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Person implements Serializable {
 
@@ -25,8 +29,5 @@ public class Person implements Serializable {
 
     @Column(nullable = false, length = 6)
     private String gender;
-
-    public Person() {
-    }
 
 }

@@ -52,13 +52,13 @@ test {
 }
 
 task cleanDevDB(type: org.flywaydb.gradle.task.FlywayCleanTask) {
-	url = 'jdbc:mysql://localhost:3306/SpringBootUdemy?useTimezone=true&serverTimezone=UTC'
+	url = 'jdbc:mysql://localhost:3306/ez2pay?useTimezone=true&serverTimezone=UTC'
 	user = 'root'
 	password = 'admin'
 }
 
 task cleanTestDB(type: org.flywaydb.gradle.task.FlywayCleanTask) {
-	url = 'jdbc:mysql://localhost:3306/SpringBootUdemy?useTimezone=true&serverTimezone=UTC'
+	url = 'jdbc:mysql://localhost:3306/ez2pay?useTimezone=true&serverTimezone=UTC'
 	user = 'root'
 	password = 'admin'
 }
