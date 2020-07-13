@@ -1,9 +1,6 @@
 package com.ez2pay.exception;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +30,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     }
 
 
-    @ExceptionHandler({InvalidInputException.class})
+    @ExceptionHandler({BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Hidden
     public final ResponseEntity<ExceptionResponse> handleBadRequestException (Exception ex, WebRequest request){
