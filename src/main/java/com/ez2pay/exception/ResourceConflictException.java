@@ -3,9 +3,9 @@ package com.ez2pay.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException (String exception) {
+@ResponseStatus(HttpStatus.CONFLICT)
+public class ResourceConflictException extends RuntimeException {
+    public ResourceConflictException(String exception) {
         super(exception);
     }
 }
