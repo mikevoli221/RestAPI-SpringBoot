@@ -27,6 +27,11 @@ public class PersonServices {
         return DozerConverter.parseObject(entity, PersonDTO.class);
     }
 
+    public PersonDTO findPersonByFirstName (String firstName){
+        var entity = personRepository.findByFirstName(firstName).orElseThrow(() -> new ResourceNotFoundException("No record found for the person with first name: " + firstName));
+        return DozerConverter.parseObject(entity, PersonDTO.class);
+    }
+
     public PersonDTO createPerson(PersonDTO personDTO){
         logger.debug("Original - PersonDTO: " + Utils.parseObjectToJson(personDTO));
 

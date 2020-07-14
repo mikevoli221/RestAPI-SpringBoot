@@ -33,7 +33,7 @@ public class PersonController {
         @ApiResponse(responseCode = "200", description = "Found the person"),
         @ApiResponse(responseCode = "404", description = "Person not found", content = @Content)
     })
-    @GetMapping("/{id}")
+    @GetMapping("/searchById/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public PersonDTO findPersonById(@Parameter(description = "id of the person to be searched") @PathVariable("id") Long id){
         PersonDTO person = services.findPersonById(id);
@@ -41,6 +41,19 @@ public class PersonController {
         return person;
     }
 
+
+    @Operation(summary = "Find a person by first name", description = "Find and return a person object")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the person"),
+            @ApiResponse(responseCode = "404", description = "Person not found", content = @Content)
+    })
+    @GetMapping("/searchByName/{firstName}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public PersonDTO findPersonByFirstName(@Parameter(description = "First name of the person to be searched") @PathVariable("firstName") String firstName){
+        PersonDTO person = services.findPersonByFirstName(firstName);
+        person.add(linkTo(methodOn(PersonController.class).findPersonByFirstName(firstName)).withSelfRel());
+        return person;
+    }
 
     @Operation(summary = "Find all persons", description = "Find and return a person object list")
     @ApiResponses(value = {
