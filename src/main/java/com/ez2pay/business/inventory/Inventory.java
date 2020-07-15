@@ -15,16 +15,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 
 public class Inventory implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "item_name", length = 100, nullable = false)
-    private String itemName;
+    private String name;
 
     @Column(name = "item_description", length = 200, nullable = false)
-    private String itemDescription;
+    private String description;
 
     @Column(precision = 5, scale = 2, nullable = false)
     private BigDecimal price;
