@@ -3,23 +3,27 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
     <mapping>
-        <class-a>com.ez2pay.person.PersonDTO</class-a>
-        <class-b>com.ez2pay.person.Person</class-b>
+        <class-a>com.ez2pay.business.customer.CustomerDTO</class-a>
+        <class-b>com.ez2pay.business.customer.Customer</class-b>
         <field>
-            <a>personFirstName</a>
+            <a>customerFirstName</a>
             <b>firstName</b>
         </field>
         <field>
-            <a>personLastName</a>
+            <a>customerLastName</a>
             <b>lastName</b>
         </field>
         <field>
-            <a>personAddress</a>
+            <a>customerAddress</a>
             <b>address</b>
         </field>
         <field>
-            <a>personGender</a>
+            <a>customerGender</a>
             <b>gender</b>
+        </field>
+        <field>
+            <a>customerEmail</a>
+            <b>email</b>
         </field>
     </mapping>
 </mappings>

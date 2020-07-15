@@ -26,10 +26,10 @@ import org.springframework.context.annotation.Configuration;
 public class OpenAPIConfig {
 
     @Bean
-    public GroupedOpenApi personAPI() {
+    public GroupedOpenApi customerAPI() {
         return GroupedOpenApi.builder()
-                .group("Person")
-                .pathsToMatch("/**/person/**")
+                .group("Customer")
+                .pathsToMatch("/**/customer/**")
                 .build();
     }
 
