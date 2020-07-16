@@ -34,6 +34,22 @@ public class OpenAPIConfig {
     }
 
     @Bean
+    public GroupedOpenApi inventoryAPI() {
+        return GroupedOpenApi.builder()
+                .group("Inventory")
+                .pathsToMatch("/**/inventory/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi orderAPI() {
+        return GroupedOpenApi.builder()
+                .group("Order")
+                .pathsToMatch("/**/order/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi v1API() {
         String paths[] = {"/v1/**"};
         String packagesToscan[] = {"com.ez2pay"};

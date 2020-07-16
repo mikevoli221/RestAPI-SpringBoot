@@ -37,9 +37,9 @@ public class CustomerController {
     @GetMapping("/searchById/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public CustomerDTO findCustomerById(@Parameter(description = "id of the customer to be searched") @PathVariable("id") Long id){
-        CustomerDTO Customer = services.findCustomerById(id);
-        Customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(id)).withSelfRel());
-        return Customer;
+        CustomerDTO customer = services.findCustomerById(id);
+        customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(id)).withSelfRel());
+        return customer;
     }
 
 
@@ -64,13 +64,13 @@ public class CustomerController {
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     public List<CustomerDTO> findAllCustomer(){
-        List<CustomerDTO> CustomerList = services.findAllCustomer();
-        CustomerList.stream()
-                 .forEach(Customer -> Customer.add(
-                        linkTo(methodOn(CustomerController.class).findCustomerById(Customer.getId())).withSelfRel()
+        List<CustomerDTO> customerList = services.findAllCustomer();
+        customerList.stream()
+                 .forEach(customer -> customer.add(
+                        linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel()
                      )
                  );
-        return CustomerList;
+        return customerList;
     }
 
 
@@ -83,9 +83,10 @@ public class CustomerController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public CustomerDTO createCustomer (@Parameter(description="Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO){
-        CustomerDTO Customer  = services.createCustomer(customerDTO);
-        Customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(Customer.getId())).withSelfRel());
-        return Customer;
+        customerDTO.setId(null);
+        CustomerDTO customer  = services.createCustomer(customerDTO);
+        customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel());
+        return customer;
     }
 
 
@@ -99,9 +100,9 @@ public class CustomerController {
     @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
     public CustomerDTO updateCustomer (@Parameter(description="Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO){
-        CustomerDTO Customer  =  services.updateCustomer(customerDTO);
-        Customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(Customer.getId())).withSelfRel());
-        return Customer;
+        CustomerDTO customer  =  services.updateCustomer(customerDTO);
+        customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel());
+        return customer;
     }
 
 

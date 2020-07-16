@@ -1,11 +1,13 @@
 package com.ez2pay.business.customer;
 
+import com.ez2pay.business.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -32,5 +34,8 @@ public class Customer implements Serializable {
 
     @Column(nullable = false, length = 100)
     private String address;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 }

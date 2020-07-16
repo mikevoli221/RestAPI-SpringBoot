@@ -1,5 +1,6 @@
 package com.ez2pay.business.customer;
 
+import com.ez2pay.business.order.OrderDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 /*
 You can use the following annotation to control JSON Object Serialization/Deserialization
@@ -27,7 +29,7 @@ You can use the following annotation to control JSON Object Serialization/Deseri
 @Schema(title = "Customer")
 public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Serializable {
 
-    private Long id;  //we use 'key' here because Spring HATEOAS has the same Id key.
+    private Long id;
 
     @Schema(description = "Last name", example = "Ho", required = true)
     @NotNull
@@ -63,6 +65,12 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     @NotBlank
     @Size(min = 1, max = 100)
     private String customerAddress;
+
+
+    @Schema(description = "List of orders")
+    @NotNull
+    @NotBlank
+    private List<OrderDTO> orders;
 
 }
 

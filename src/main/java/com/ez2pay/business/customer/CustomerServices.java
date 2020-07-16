@@ -25,6 +25,9 @@ public class CustomerServices {
 
     public CustomerDTO findCustomerById (Long id){
         var entity = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this customer id: " + id));
+
+        entity.getOrders().stream().forEach(order -> logger.debug(order.getOrderStatus()));
+
         return DozerConverter.parseObject(entity, CustomerDTO.class);
     }
 

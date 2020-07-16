@@ -13,7 +13,7 @@ CREATE TABLE orders
 (
     `id`           bigint      NOT NULL AUTO_INCREMENT,
     `customer_id`  bigint      NOT NULL,
-    `order_date`   date        NOT NULL,
+    `order_date`   timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `order_status` varchar(20) NOT NULL,
     PRIMARY KEY (`id`)
 );
