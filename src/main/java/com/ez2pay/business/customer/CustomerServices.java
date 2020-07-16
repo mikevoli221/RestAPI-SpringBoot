@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,6 +49,14 @@ public class CustomerServices {
         entity = DozerConverter.parseObject(customerDTO, Customer.class);
 
         entity = customerRepository.save(entity);
+        return DozerConverter.parseObject(entity, CustomerDTO.class);
+    }
+
+    @Transactional
+    public CustomerDTO updateEmail (Long customerId, String email){
+        customerRepository.updateEmail(customerId, email);
+
+        var entity = customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("No record found for this customer id: " + customerId));
         return DozerConverter.parseObject(entity, CustomerDTO.class);
     }
 

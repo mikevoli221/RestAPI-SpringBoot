@@ -105,6 +105,22 @@ public class CustomerController {
     }
 
 
+    @Operation (summary = "Update a customer email", description = "Update email and return a newly updated customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer email updated"),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content),
+            @ApiResponse(responseCode = "409", description = "New information validation failed", content = @Content)
+    })
+    @PatchMapping (params = {"id", "email"})
+    @ResponseStatus(code = HttpStatus.OK)
+    public CustomerDTO updateCustomerEmail (@Parameter(description="Customer id to update email. Cannot null or empty") @RequestParam Long id, @Parameter(description="Customer email to be updated. Cannot null or empty") @RequestParam String email){
+        CustomerDTO Customer  =  services.updateEmail(id, email);
+        Customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(Customer.getId())).withSelfRel());
+        return Customer;
+    }
+
+
     @Operation (summary = "Delete a customer", description = "Delete a customer and return nothing")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Customer deleted"),
