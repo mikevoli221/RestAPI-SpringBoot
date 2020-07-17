@@ -36,7 +36,6 @@ dependencies {
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.4.3'
 
-	compile 'com.google.code.gson:gson:2.8.6'
 	compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.1"
 
 	runtimeOnly 'mysql:mysql-connector-java'

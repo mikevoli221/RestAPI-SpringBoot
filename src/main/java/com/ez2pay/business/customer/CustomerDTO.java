@@ -1,6 +1,7 @@
 package com.ez2pay.business.customer;
 
 import com.ez2pay.business.order.OrderDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,7 +66,6 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     @NotBlank
     @Size(min = 1, max = 100)
     private String customerAddress;
-
 
     @Schema(description = "List of orders")
     @NotNull

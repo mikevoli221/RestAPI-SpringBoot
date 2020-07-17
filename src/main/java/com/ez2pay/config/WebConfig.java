@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@EnableWebMvc
+@EnableWebMvc //for Content Negotiation
 public class WebConfig implements WebMvcConfigurer {
 
     //Handling bug in Springdocs when using @EnableWebMvc

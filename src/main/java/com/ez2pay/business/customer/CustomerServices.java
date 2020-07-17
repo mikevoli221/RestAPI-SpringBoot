@@ -3,6 +3,7 @@ package com.ez2pay.business.customer;
 import com.ez2pay.util.Utils;
 import com.ez2pay.exception.ResourceNotFoundException;
 import com.ez2pay.util.DozerConverter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,6 @@ public class CustomerServices {
 
     public CustomerDTO findCustomerById (Long id){
         var entity = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this customer id: " + id));
-
-        entity.getOrders().stream().forEach(order -> logger.debug(order.getOrderStatus()));
-
         return DozerConverter.parseObject(entity, CustomerDTO.class);
     }
 
