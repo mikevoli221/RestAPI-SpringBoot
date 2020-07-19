@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc //for Content Negotiation
 public class WebConfig implements WebMvcConfigurer {
 
-    //Handling bug in Springdocs when using @EnableWebMvc
+    //Handling swagger-ui.html redirection bug in Springdocs when using @EnableWebMvc
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
         return new InternalResourceViewResolver();
@@ -35,12 +35,12 @@ public class WebConfig implements WebMvcConfigurer {
 
         //use path extension and query parameter and accept header methods altogether
         configurer.favorParameter(true)
-                  .parameterName("mediaType")
-                  .ignoreAcceptHeader(false)
-                  .useRegisteredExtensionsOnly(false)
-                  .defaultContentType(MediaType.APPLICATION_JSON)
-                  .mediaType("xml", MediaType.APPLICATION_XML)
-                  .mediaType("json", MediaType.APPLICATION_JSON);
+                .parameterName("mediaType")
+                .ignoreAcceptHeader(false)
+                .useRegisteredExtensionsOnly(false)
+                .defaultContentType(MediaType.APPLICATION_JSON)
+                .mediaType("xml", MediaType.APPLICATION_XML)
+                .mediaType("json", MediaType.APPLICATION_JSON);
 
 
         /*//use only path extension method

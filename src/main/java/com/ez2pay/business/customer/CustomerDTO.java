@@ -1,12 +1,7 @@
 package com.ez2pay.business.customer;
 
-import com.ez2pay.business.order.OrderDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.Email;
@@ -14,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 
 /*
 You can use the following annotation to control JSON Object Serialization/Deserialization
@@ -23,11 +17,10 @@ You can use the following annotation to control JSON Object Serialization/Deseri
 @JsonIgnore
 */
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
-@Schema(title = "Customer")
+//@ToString(exclude = "{orders}")
+//@EqualsAndHashCode(exclude = {"orders"})
+@Schema(title = "Customer", description = "Customer schema")
 public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Serializable {
 
     private Long id;
@@ -67,11 +60,13 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     @Size(min = 1, max = 100)
     private String customerAddress;
 
+    //comment due to no need to get order list when fetching customers which can cause performance
+    /*
     @Schema(description = "List of orders")
     @NotNull
     @NotBlank
     private List<OrderDTO> orders;
-
+    */
 }
 
 

@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v2/customer")
 @Tag(name = "Customer API", description = "API to create, search, update and delete customer")
 public class CustomerControllerV2 {
-    private static Logger logger = LoggerFactory.getLogger(CustomerControllerV2.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerControllerV2.class);
 
     @Autowired
     private CustomerServices services;
 
 
-    @Operation (summary = "Create a new customer", description = "Create and return a newly added customer")
+    @Operation(summary = "Create a new customer", description = "Create and return a newly added customer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Customer created"),
             @ApiResponse(responseCode = "400", description = "Invalid input person information", content = @Content),
@@ -30,7 +30,7 @@ public class CustomerControllerV2 {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CustomerDTO createCustomer (@Parameter(description="Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO){
+    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO) {
         return services.createCustomer(customerDTO);
     }
 }

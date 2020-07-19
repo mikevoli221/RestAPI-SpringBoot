@@ -9,13 +9,13 @@ import java.util.Optional;
 
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long>{
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
-    Optional<Customer> findByFirstName (String firstName);
+    Optional<Customer> findByFirstName(String firstName);
 
-    @Modifying (clearAutomatically = true, flushAutomatically = true)
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE Customer c SET c.email = :email WHERE c.id = :customerId ")
-    void updateEmail (Long customerId, String email);
+    void updateEmail(Long customerId, String email);
 
 }

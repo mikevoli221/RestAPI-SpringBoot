@@ -1,8 +1,6 @@
 package com.ez2pay.business.inventory;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,9 +9,6 @@ import java.math.BigDecimal;
 @Table(name = "inventory")
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-
 public class Inventory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

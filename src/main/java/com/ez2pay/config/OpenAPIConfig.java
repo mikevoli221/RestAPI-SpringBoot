@@ -51,8 +51,8 @@ public class OpenAPIConfig {
 
     @Bean
     public GroupedOpenApi v1API() {
-        String paths[] = {"/v1/**"};
-        String packagesToscan[] = {"com.ez2pay"};
+        String[] paths = {"/v1/**"};
+        String[] packagesToscan = {"com.ez2pay"};
         return GroupedOpenApi.builder()
                 .addOpenApiCustomiser(new OpenApiCustomiser() {
                     @Override
@@ -63,13 +63,13 @@ public class OpenAPIConfig {
                                 .description("Documentation EZ2PAY API v1.0")
                                 .termsOfService("https://www.ez2pay.com")
                                 .license(new io.swagger.v3.oas.models.info.License()
-                                    .name("EZ2PAY License")
-                                    .url("https://www.ez2pay.com")
+                                        .name("EZ2PAY License")
+                                        .url("https://www.ez2pay.com")
                                 )
                                 .contact(new io.swagger.v3.oas.models.info.Contact()
-                                    .name("Wirecard Vietnam")
-                                    .email("hiep.ho@wirecard.com")
-                                    .url("https://www.ez2pay.com")
+                                        .name("Wirecard Vietnam")
+                                        .email("hiep.ho@wirecard.com")
+                                        .url("https://www.ez2pay.com")
                                 )
                         );
                     }
@@ -82,8 +82,8 @@ public class OpenAPIConfig {
 
     @Bean
     public GroupedOpenApi v2API() {
-        String paths[] = {"/v2/**"};
-        String packagesToscan[] = {"com.ez2pay"};
+        String[] paths = {"/v2/**"};
+        String[] packagesToscan = {"com.ez2pay"};
         return GroupedOpenApi.builder()
                 .group("APIs (Version 2)")
                 .pathsToMatch(paths)
