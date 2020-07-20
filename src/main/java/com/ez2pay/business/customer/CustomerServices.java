@@ -3,21 +3,20 @@ package com.ez2pay.business.customer;
 import com.ez2pay.exception.ResourceNotFoundException;
 import com.ez2pay.util.DozerConverter;
 import com.ez2pay.util.Utils;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServices {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerServices.class);
-
-    @Autowired
-    CustomerRepository customerRepository;
+    private  final CustomerRepository customerRepository;
 
     public List<CustomerDTO> findAllCustomer() {
         return DozerConverter.parseObjectList(customerRepository.findAll(), CustomerDTO.class);

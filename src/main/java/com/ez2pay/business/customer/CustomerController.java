@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +19,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/customer")
 @Tag(name = "Customer API", description = "API to create, search, update and delete customer")
 public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
-
-    @Autowired
-    private CustomerServices services;
-
+    private final CustomerServices services;
 
     @Operation(summary = "Find a customer by id", description = "Find and return a customer object")
     @ApiResponses(value = {
@@ -65,11 +63,10 @@ public class CustomerController {
     @ResponseStatus(code = HttpStatus.OK)
     public List<CustomerDTO> findAllCustomer() {
         List<CustomerDTO> customerList = services.findAllCustomer();
-        customerList.stream()
-                .forEach(customer -> customer.add(
-                        linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel()
-                        )
-                );
+        customerList.forEach(customer -> customer.add(
+                    linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel()
+                )
+        );
         return customerList;
     }
 

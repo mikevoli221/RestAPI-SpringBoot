@@ -15,6 +15,7 @@ You can use the following annotation to control JSON Object Serialization/Deseri
 @JsonPropertyOrder({"id", "customerLastName", "customerFirstName", "customerGender", "customerEmail", "customerAddress"})
 @JsonProperty("first_name")
 @JsonIgnore
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") //handle infinite recursion in one-to-many relationships
 */
 
 @Data

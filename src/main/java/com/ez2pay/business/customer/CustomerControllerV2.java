@@ -6,20 +6,19 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v2/customer")
 @Tag(name = "Customer API", description = "API to create, search, update and delete customer")
 public class CustomerControllerV2 {
     private static final Logger logger = LoggerFactory.getLogger(CustomerControllerV2.class);
-
-    @Autowired
-    private CustomerServices services;
+    private final CustomerServices services;
 
 
     @Operation(summary = "Create a new customer", description = "Create and return a newly added customer")

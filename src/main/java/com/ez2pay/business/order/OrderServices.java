@@ -8,9 +8,9 @@ import com.ez2pay.exception.ResourceConflictException;
 import com.ez2pay.exception.ResourceNotFoundException;
 import com.ez2pay.util.DozerConverter;
 import com.ez2pay.util.Utils;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServices {
 
     private static final String PROCESSING_ORDER = "PROCESSING";
@@ -26,14 +27,9 @@ public class OrderServices {
     private static final String CANCELLED_ORDER = "CANCELLED";
 
     private static final Logger logger = LoggerFactory.getLogger(OrderServices.class);
-    @Autowired
-    private OrderRepository repository;
-
-    @Autowired
-    private CustomerServices customerServices;
-
-    @Autowired
-    private InventoryServices inventoryServices;
+    private final OrderRepository repository;
+    private final CustomerServices customerServices;
+    private final InventoryServices inventoryServices;
 
     public OrderDTO findOrderById(Long id) {
         var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find order with id: " + id));
@@ -54,7 +50,7 @@ public class OrderServices {
 
         List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
         OrderDTO tempOrderDTO = orderDTO;
-        createOrderDTO.getOrderDetails().stream().forEach(item -> {
+        createOrderDTO.getOrderDetails().forEach(item -> {
 
             InventoryDTO inventoryDTO = inventoryServices.findItemById(item.getItemId());
             int leftQuantityAvailable = inventoryDTO.getQuantityAvailable() - item.getQuantity();
@@ -108,7 +104,7 @@ public class OrderServices {
             throw new ResourceConflictException("Order has already been cancelled");
         }
 
-        entity.getOrderDetails().stream().forEach(item -> {
+        entity.getOrderDetails().forEach(item -> {
             InventoryDTO inventoryDTO = inventoryServices.findItemById(item.getItem().getId());
             int newQuantityAvailable = inventoryDTO.getQuantityAvailable() + item.getQuantity();
             inventoryDTO.setQuantityAvailable(newQuantityAvailable);

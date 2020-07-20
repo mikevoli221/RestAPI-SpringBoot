@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +19,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/inventory")
 @Tag(name = "Inventory API", description = "API to create, search, update and delete item")
 public class InventoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryController.class);
-
-    @Autowired
-    private InventoryServices services;
-
+    private final InventoryServices services;
 
     @Operation(summary = "Find an item by id", description = "Find an item by id and return the inventory object")
     @ApiResponses(value = {
@@ -52,10 +50,9 @@ public class InventoryController {
     @ResponseStatus(HttpStatus.OK)
     public List<InventoryDTO> findAllItem() {
         List<InventoryDTO> itemList = services.findAllItem();
-        itemList.stream().
-                forEach(item -> item.add(
-                        linkTo(methodOn(InventoryController.class).findItemById(item.getId())).withSelfRel()
-                ));
+        itemList.forEach(item -> item.add(
+                linkTo(methodOn(InventoryController.class).findItemById(item.getId())).withSelfRel()
+        ));
         return itemList;
     }
 

@@ -6,11 +6,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,15 +18,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/order")
 @Tag(name = "Order API", description = "API to create, search, update and delete order")
 public class OrderController {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
-
-    @Autowired
-    private OrderServices services;
-
+    private final OrderServices services;
 
     @Operation(summary = "Find an order by id", description = "Find an order by id and return the order object")
     @ApiResponses(value = {
@@ -52,10 +49,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public List<OrderDTO> findAllOrders() {
         List<OrderDTO> orderList = services.findAllOrders();
-        orderList.stream().
-                forEach(order -> order.add(
-                        linkTo(methodOn(OrderController.class).findOrderById(order.getId())).withSelfRel()
-                ));
+        orderList.forEach(order -> order.add(
+                linkTo(methodOn(OrderController.class).findOrderById(order.getId())).withSelfRel()
+        ));
         return orderList;
     }
 
