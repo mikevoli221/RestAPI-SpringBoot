@@ -16,7 +16,7 @@ import java.util.List;
 public class CustomerServices {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerServices.class);
-    private  final CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public List<CustomerDTO> findAllCustomer() {
         return DozerConverter.parseObjectList(customerRepository.findAll(), CustomerDTO.class);

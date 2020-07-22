@@ -15,7 +15,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByFirstName(String firstName);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("UPDATE Customer c SET c.email = :email WHERE c.id = :customerId ")
-    void updateEmail(Long customerId, String email);
-
+    @Query("UPDATE Customer c SET c.email = :email WHERE c.id = :customerId")
+    Integer updateEmail(Long customerId, String email);
 }

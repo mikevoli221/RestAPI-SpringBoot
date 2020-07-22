@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -79,7 +80,7 @@ public class CustomerController {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @Valid @RequestBody CustomerDTO customerDTO) {
         customerDTO.setId(null);
         CustomerDTO customer = services.createCustomer(customerDTO);
         customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel());
