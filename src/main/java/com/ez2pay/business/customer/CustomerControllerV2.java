@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v2/customer")
@@ -29,7 +31,7 @@ public class CustomerControllerV2 {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @Valid @RequestBody CustomerDTO customerDTO) {
         return services.createCustomer(customerDTO);
     }
 }

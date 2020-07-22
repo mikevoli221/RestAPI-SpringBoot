@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -64,7 +65,7 @@ public class OrderController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDTO createOrder(@Parameter(description = "Item to add/update. Cannot null or empty") @RequestBody CreateOrderDTO createOrderDTO) {
+    public OrderDTO createOrder(@Parameter(description = "Item to add/update. Cannot null or empty") @Valid @RequestBody CreateOrderDTO createOrderDTO) {
         OrderDTO order = services.createOrder(createOrderDTO);
         order.add(linkTo(methodOn(OrderController.class).findOrderById(order.getId())).withSelfRel());
         return order;
@@ -80,7 +81,7 @@ public class OrderController {
     })
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public OrderDTO updateOrder(@Parameter(description = "Order to add/update. Cannot null or empty") @RequestBody OrderDTO itemDTO) {
+    public OrderDTO updateOrder(@Parameter(description = "Order to add/update. Cannot null or empty") @Valid @RequestBody OrderDTO itemDTO) {
         OrderDTO order = services.updateOrder(itemDTO);
         order.add(linkTo(methodOn(OrderController.class).findOrderById(itemDTO.getId())).withSelfRel());
         return order;

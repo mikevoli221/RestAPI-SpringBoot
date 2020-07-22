@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 //Unit test in Spring is good to test the service layer.
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerUnitTests {
+public class CustomerServiceTests {
 
     @Mock
     CustomerRepository customerRepository;
@@ -44,6 +44,7 @@ public class CustomerUnitTests {
         customerDTO.setCustomerEmail("mikevoli221@yahoo.com");
         customerDTO.setCustomerFirstName("Minh Hiep");
         customerDTO.setCustomerLastName("Ho");
+        customerDTO.setCustomerGender("Male");
 
         when(customerRepository.save(any(Customer.class))).then(returnsFirstArg());
 
@@ -59,6 +60,7 @@ public class CustomerUnitTests {
         customer.setEmail("hiep.ho@yahoo.com");
         customer.setFirstName("Minh Hiep");
         customer.setLastName("Ho");
+        customer.setGender("Male");
 
         when(customerRepository.updateEmail(1L, "hiep.ho@yahoo.com")).thenReturn(1);
         when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
@@ -75,6 +77,7 @@ public class CustomerUnitTests {
         customer.setEmail("hiep.ho@yahoo.com");
         customer.setFirstName("Minh Hiep");
         customer.setLastName("Ho");
+        customer.setGender("Male");
 
         when(customerRepository.findByFirstName("Minh Hiep")).thenReturn(Optional.of(customer));
 

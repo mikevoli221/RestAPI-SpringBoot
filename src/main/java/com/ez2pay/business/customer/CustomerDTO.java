@@ -2,6 +2,7 @@ package com.ez2pay.business.customer;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Value;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.Email;
@@ -50,7 +51,7 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     @Schema(description = "Email", example = "hiep.ho@yahoo.com", required = true)
     @NotNull
     @NotBlank
-    @Email
+    @Email (message = "Email should be valid")
     @Size(min = 1, max = 100)
     private String customerEmail;
 

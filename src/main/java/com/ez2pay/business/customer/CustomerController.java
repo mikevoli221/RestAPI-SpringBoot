@@ -80,8 +80,7 @@ public class CustomerController {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @Valid @RequestBody CustomerDTO customerDTO) {
-        customerDTO.setId(null);
+    public CustomerDTO createCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty")  @Valid @RequestBody CustomerDTO customerDTO) {
         CustomerDTO customer = services.createCustomer(customerDTO);
         customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel());
         return customer;
@@ -97,7 +96,7 @@ public class CustomerController {
     })
     @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public CustomerDTO updateCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomer(@Parameter(description = "Customer to add/update. Cannot null or empty") @Valid @RequestBody CustomerDTO customerDTO) {
         CustomerDTO customer = services.updateCustomer(customerDTO);
         customer.add(linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel());
         return customer;

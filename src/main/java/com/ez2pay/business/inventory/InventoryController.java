@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -65,7 +66,7 @@ public class InventoryController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public InventoryDTO createItem(@Parameter(description = "Item to add/update. Cannot null or empty") @RequestBody InventoryDTO itemDTO) {
+    public InventoryDTO createItem(@Parameter(description = "Item to add/update. Cannot null or empty") @Valid @RequestBody InventoryDTO itemDTO) {
         itemDTO.setId(null);
         InventoryDTO item = services.createItem(itemDTO);
         item.add(linkTo(methodOn(InventoryController.class).findItemById(item.getId())).withSelfRel());
@@ -82,7 +83,7 @@ public class InventoryController {
     })
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public InventoryDTO updateItem(@Parameter(description = "Item to add/update. Cannot null or empty") @RequestBody InventoryDTO itemDTO) {
+    public InventoryDTO updateItem(@Parameter(description = "Item to add/update. Cannot null or empty") @Valid @RequestBody InventoryDTO itemDTO) {
         InventoryDTO item = services.updateItem(itemDTO);
         item.add(linkTo(methodOn(InventoryController.class).findItemById(itemDTO.getId())).withSelfRel());
         return item;
