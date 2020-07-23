@@ -2,7 +2,6 @@ package com.ez2pay.integration;
 
 import com.ez2pay.business.customer.CustomerController;
 import com.ez2pay.business.customer.CustomerDTO;
-import com.ez2pay.business.customer.CustomerRepository;
 import com.ez2pay.business.customer.CustomerServices;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,17 +10,15 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(controllers = CustomerController.class)
@@ -76,9 +73,13 @@ public class CustomerControllerTests {
         assertThat(customerCaptor.getValue().getCustomerEmail()).isEqualTo(customerDTO.getCustomerEmail());
         verify(customerServices).createCustomer(any(CustomerDTO.class));
 
-        //verify response
-        String response = mvcResult.getResponse().getContentAsString();
-        assertThat(response).contains(customerDTO.getCustomerEmail());
+        //verify response option 1
+        //String response = mvcResult.getResponse().getContentAsString();
+        //assertThat(response).contains(customerDTO.getCustomerEmail());
+
+        //verify response option 2
+        CustomerDTO response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CustomerDTO.class);
+        assertThat(response.getCustomerEmail()).isEqualTo(customerDTO.getCustomerEmail());
     }
 
     @Test
