@@ -129,7 +129,7 @@ public class CustomerController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public ResponseEntity deleteCustomer(@Parameter(description = "id of customer to be deleted") @PathVariable("id") Long id) {
         services.deleteCustomer(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

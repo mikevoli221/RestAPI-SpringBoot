@@ -100,6 +100,6 @@ public class InventoryController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity deleteItem(@Parameter(description = "id of item to be deleted") @PathVariable("id") Long id) {
         services.deleteItem(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

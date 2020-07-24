@@ -1,4 +1,4 @@
-package com.ez2pay.integration;
+package com.ez2pay.unit;
 
 import com.ez2pay.business.customer.CustomerController;
 import com.ez2pay.business.customer.CustomerDTO;

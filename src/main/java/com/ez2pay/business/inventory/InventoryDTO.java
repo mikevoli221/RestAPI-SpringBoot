@@ -32,13 +32,11 @@ public class InventoryDTO extends RepresentationModel<InventoryDTO> implements S
 
     @Schema(description = "Item Price", example = "100.00", required = true)
     @NotNull
-    @NotBlank
     @Digits(integer = 5, fraction = 2)
     private BigDecimal price;
 
     @Schema(description = "Available quantity", example = "1000", required = true)
     @NotNull
-    @NotBlank
     @Digits(integer = 5, fraction = 0)
     private Integer quantityAvailable;
 }
