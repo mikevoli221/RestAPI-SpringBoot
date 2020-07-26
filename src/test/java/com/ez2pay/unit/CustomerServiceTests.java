@@ -4,6 +4,7 @@ import com.ez2pay.business.customer.Customer;
 import com.ez2pay.business.customer.CustomerDTO;
 import com.ez2pay.business.customer.CustomerRepository;
 import com.ez2pay.business.customer.CustomerServices;
+import com.ez2pay.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -107,5 +109,22 @@ public class CustomerServiceTests {
                 .as("Check if found customer has correct first name")
                 .isEqualTo("Minh Hiep");
     }
+
+
+    @Test
+    void givenCustomerId_whenNotFoundCustomer_returnResourceNotFoundException(){
+        //given
+        given(customerRepository.findById(1L)).willThrow(new ResourceNotFoundException("Could not find customer with id: 1"));
+
+        //when
+        final Throwable throwable = catchThrowable(() -> customerServices.findCustomerById(1L));
+
+        //then
+        then(throwable).as("ResourceNotFoundException should be thrown if a customer with ID is passed")
+                .isInstanceOf(ResourceNotFoundException.class)
+                .as("Check that error message is correct")
+                .hasMessageContaining("Could not find customer with id: 1");
+    }
+
 
 }
