@@ -12,12 +12,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
-//Unit test in Spring is good to test the service layer.
+//Unit test in Spring is good to test the service layer (following BDD style)
 //Use Mockito
 
 @ExtendWith(MockitoExtension.class)
@@ -37,7 +37,7 @@ public class CustomerServiceTests {
     */
 
     @Test
-    void createCustomer(){
+    void givenCustomerIno_whenCreateCustomerSuccessfully_thenReturnsNewCustomerInfo() {
 
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setId(1L);
@@ -47,14 +47,20 @@ public class CustomerServiceTests {
         customerDTO.setCustomerLastName("Ho");
         customerDTO.setCustomerGender("Male");
 
-        when(customerRepository.save(any(Customer.class))).then(returnsFirstArg());
+        //given
+        given(customerRepository.save(any(Customer.class))).willAnswer(returnsFirstArg());
 
+        //when
         CustomerDTO saveCustomer = customerServices.createCustomer(customerDTO);
-        assertThat(saveCustomer.getCustomerEmail()).isEqualTo("mikevoli221@yahoo.com");
+
+        //then
+        then(saveCustomer.getCustomerEmail())
+                .as("Check customer email is stored")
+                .isEqualTo("mikevoli221@yahoo.com");
     }
 
     @Test
-    void updateEmail(){
+    void givenUpdatedCustomerInfo_whenUpdatedSuccessfully_returnUpdatedCustomer(){
         Customer customer = new Customer();
         customer.setId(1L);
         customer.setAddress("Vancouver, Canada");
@@ -63,15 +69,21 @@ public class CustomerServiceTests {
         customer.setLastName("Ho");
         customer.setGender("Male");
 
-        when(customerRepository.updateEmail(1L, "hiep.ho@yahoo.com")).thenReturn(1);
-        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+        //given
+        given(customerRepository.updateEmail(1L, "hiep.ho@yahoo.com")).willReturn(1);
+        given(customerRepository.findById(1L)).willReturn(Optional.of(customer));
 
+        //when
         CustomerDTO customerDTO = customerServices.updateEmail(1L, "hiep.ho@yahoo.com");
-        assertThat(customerDTO.getCustomerEmail()).isEqualTo("hiep.ho@yahoo.com");
+
+        //then
+        then(customerDTO.getCustomerEmail())
+                .as("Check new email is updated or not")
+                .isEqualTo("hiep.ho@yahoo.com");
     }
 
     @Test
-    void findByFirstName(){
+    void givenCustomerFirstName_whenFoundCustomer_returnCustomerEntity(){
         Customer customer = new Customer();
         customer.setId(1L);
         customer.setAddress("Vancouver, Canada");
@@ -80,11 +92,16 @@ public class CustomerServiceTests {
         customer.setLastName("Ho");
         customer.setGender("Male");
 
-        when(customerRepository.findByFirstName("Minh Hiep")).thenReturn(Optional.of(customer));
+        //given
+        given(customerRepository.findByFirstName("Minh Hiep")).willReturn(Optional.of(customer));
 
+        //when
         CustomerDTO customerDTO = customerServices.findCustomerByFirstName("Minh Hiep");
-        assertThat(customerDTO.getCustomerFirstName()).isEqualTo("Minh Hiep");
 
+        //
+        then(customerDTO.getCustomerFirstName())
+                .as("Check if found customer has correct first name")
+                .isEqualTo("Minh Hiep");
     }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 /*
 For more complex scenarios, @DatabaseSetup and @Sql provide a way to externalize the database state in XML or SQL files
@@ -32,14 +32,14 @@ public class CustomerRepositoryTests {
 
     @Test
     void injectedComponentsAreNotNull(){
-        assertThat(dataSource).isNotNull();
-        assertThat(jdbcTemplate).isNotNull();
-        assertThat(entityManager).isNotNull();
-        assertThat(customerRepository).isNotNull();
+        then(dataSource).isNotNull();
+        then(jdbcTemplate).isNotNull();
+        then(entityManager).isNotNull();
+        then(customerRepository).isNotNull();
     }
 
     @Test
-    void givenCustomer_whenCreateCustomeSuccessful_thenReturnsNewCustomer(){
+    void givenCustomer_whenCreateCustomerSuccessful_thenReturnsNewCustomer(){
         //given
         Customer customer = new Customer();
         customer.setAddress("Vancouver, Canada");
@@ -55,7 +55,7 @@ public class CustomerRepositoryTests {
         Customer newCustomer = customerRepository.findByFirstName(customer.getFirstName()).get();
 
         //then
-        assertThat(newCustomer.getEmail()).isEqualTo(customer.getEmail());
+        then(newCustomer.getEmail()).isEqualTo(customer.getEmail());
     }
 
 
