@@ -51,12 +51,16 @@ public class CustomerServiceTests {
         given(customerRepository.save(any(Customer.class))).willAnswer(returnsFirstArg());
 
         //when
-        CustomerDTO saveCustomer = customerServices.createCustomer(customerDTO);
+        CustomerDTO newCustomer = customerServices.createCustomer(customerDTO);
 
         //then
-        then(saveCustomer.getCustomerEmail())
+        then(newCustomer.getCustomerEmail())
                 .as("Check customer email is stored")
                 .isEqualTo("mikevoli221@yahoo.com");
+
+        then(newCustomer)
+                .as("Check new customer info match")
+                .isEqualToIgnoringGivenFields(customerDTO,"links");
     }
 
     @Test
