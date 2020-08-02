@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -15,11 +16,10 @@ public class CreateOrderDTO implements Serializable {
 
     @Schema(description = "Customer Id")
     @NotNull
-    @NotBlank
     private Long customerId;
 
     @Schema(description = "Order Details")
     @NotNull
-    @NotBlank
+    @NotEmpty
     private List<CreateOrderDetailDTO> orderDetails;
 }
