@@ -13,7 +13,7 @@ CREATE TABLE orders
 (
     `id`           bigint      NOT NULL AUTO_INCREMENT,
     `customer_id`  bigint      NOT NULL,
-    `order_date`   timestamp   NOT NULL default current_timestamp,
+    `order_date`   timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `order_status` varchar(20) NOT NULL,
     PRIMARY KEY (`id`)
 );
@@ -36,5 +36,33 @@ CREATE TABLE inventory
     `price`              decimal      NOT NULL,
     `quantity_available` int          NOT NULL,
     PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE role
+(
+    `id`          bigint       NOT NULL AUTO_INCREMENT,
+    `description` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE user
+(
+    `id`                      bigint       NOT NULL AUTO_INCREMENT,
+    `user_name`               varchar(255) NOT NULL UNIQUE,
+    `full_name`               varchar(255) NOT NULL,
+    `password`                varchar(255) DEFAULT NULL,
+    `account_non_expired`     boolean      DEFAULT NULL,
+    `account_non_locked`      boolean      DEFAULT NULL,
+    `credentials_non_expired` boolean      DEFAULT NULL,
+    `enabled`                 boolean      DEFAULT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE user_role
+(
+    `user_id` bigint NOT NULL,
+    `role_id` bigint NOT NULL,
+    PRIMARY KEY (`user_id`, `role_id`)
 );
 

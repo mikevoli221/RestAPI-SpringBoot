@@ -38,3 +38,31 @@ CREATE TABLE inventory
     PRIMARY KEY (`id`)
 );
 
+
+CREATE TABLE role
+(
+    `id`          bigint       NOT NULL AUTO_INCREMENT,
+    `description` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE user
+(
+    `id`                      bigint       NOT NULL AUTO_INCREMENT,
+    `user_name`               varchar(255) NOT NULL UNIQUE,
+    `full_name`               varchar(255) NOT NULL,
+    `password`                varchar(255) DEFAULT NULL,
+    `account_non_expired`     boolean      DEFAULT NULL,
+    `account_non_locked`      boolean      DEFAULT NULL,
+    `credentials_non_expired` boolean      DEFAULT NULL,
+    `enabled`                 boolean      DEFAULT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE user_role
+(
+    `user_id` bigint NOT NULL,
+    `role_id` bigint NOT NULL,
+    PRIMARY KEY (`user_id`, `role_id`)
+);
+
