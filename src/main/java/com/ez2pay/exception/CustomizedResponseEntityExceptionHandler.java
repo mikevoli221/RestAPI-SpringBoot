@@ -35,7 +35,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BadRequestException.class})
+    @ExceptionHandler({BadRequestException.class, InvalidJwtAuthenticationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Hidden
     public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception ex, WebRequest request) {

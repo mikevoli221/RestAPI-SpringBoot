@@ -52,7 +52,7 @@ public class OpenAPIConfig {
     @Bean
     public GroupedOpenApi v1API() {
         String[] paths = {"/v1/**"};
-        String[] packagesToscan = {"com.ez2pay"};
+        String[] packagesToScan = {"com.ez2pay"};
         return GroupedOpenApi.builder()
                 .addOpenApiCustomiser(new OpenApiCustomiser() {
                     @Override
@@ -76,18 +76,18 @@ public class OpenAPIConfig {
                 })
                 .group("APIs (Version 1)")
                 .pathsToMatch(paths)
-                .packagesToScan(packagesToscan)
+                .packagesToScan(packagesToScan)
                 .build();
     }
 
     @Bean
     public GroupedOpenApi v2API() {
         String[] paths = {"/v2/**"};
-        String[] packagesToscan = {"com.ez2pay"};
+        String[] packagesToScan = {"com.ez2pay"};
         return GroupedOpenApi.builder()
                 .group("APIs (Version 2)")
                 .pathsToMatch(paths)
-                .packagesToScan(packagesToscan)
+                .packagesToScan(packagesToScan)
                 .build();
     }
 
