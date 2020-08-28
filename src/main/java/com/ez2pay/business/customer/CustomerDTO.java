@@ -2,7 +2,6 @@ package com.ez2pay.business.customer;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.Value;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.Email;

@@ -50,6 +50,14 @@ public class OpenAPIConfig {
     }
 
     @Bean
+    public GroupedOpenApi authenticationAPI() {
+        return GroupedOpenApi.builder()
+                .group("Authentication")
+                .pathsToMatch("/**/auth/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi v1API() {
         String[] paths = {"/v1/**"};
         String[] packagesToScan = {"com.ez2pay"};

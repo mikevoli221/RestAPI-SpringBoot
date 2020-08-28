@@ -2,41 +2,39 @@ package com.ez2pay.security;
 
 import com.ez2pay.business.user.UserServices;
 import com.ez2pay.exception.InvalidJwtAuthenticationException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
+import java.security.Key;
 import java.util.Date;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class JwtTokenProvider {
 
-    private final UserServices userServices;
+    private Key secretKey;
 
-    @Value("${security.jwt.token.secret-key:secret}")
-    private String secretKey = "secret";
+    @Value("${security.jwt.token.secret-key:aGllcHlldWtpbW5oaWV1bGFtbGFtbGFtbGFtbGFtbGFtbGFt}")
+    private String base64EncodedSecretKey = "aGllcHlldWtpbW5oaWV1bGFtbGFtbGFtbGFtbGFtbGFtbGFt";
 
-    @Value("${security.jwt.token.expire-length:36000000}")
-    private long validityInMilliseconds = 36000000;
+    @Value("${security.jwt.token.expire-length:3600000}")
+    private long validityInMilliseconds = 3600000;
+
+    @Autowired
+    private UserServices userServices;
 
     @PostConstruct
     public void init(){
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64EncodedSecretKey));
     }
 
     public String creatToken (String username, List<String> roles){
@@ -50,7 +48,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -69,8 +67,8 @@ public class JwtTokenProvider {
                 return false;
             }
             return true;
-        }catch (Exception e){
-            throw new InvalidJwtAuthenticationException("Expired or invalid token");
+        }catch (JwtException | IllegalArgumentException e){
+            throw new InvalidJwtAuthenticationException("Expired or invalid JWT token");
         }
     }
 
@@ -79,8 +77,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication (String token){
-        UserDetails userDetails = this.userServices.loadUserByUsername(getUsername(token));
+        UserDetails userDetails = this.userServices.loadUserByUsername(this.getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
-
 }

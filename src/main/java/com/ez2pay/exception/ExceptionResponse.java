@@ -4,13 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @Schema(title = "Exception Response", description = "Exception response used for all kind of exceptions")
 public class ExceptionResponse implements Serializable {
-
-    private final Date timeStamp;
+    private final Timestamp timestamp;
+    private final int status;
+    private final String error;
     private final String message;
-    private final String detail;
+    private final String path;
 }
