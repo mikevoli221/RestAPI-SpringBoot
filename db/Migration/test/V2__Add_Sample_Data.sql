@@ -19,7 +19,7 @@ INSERT INTO ORDER_DETAIL (ORDER_ID, ITEM_ID, PRICE, QUANTITY) VALUES (2, 4, 1500
 INSERT INTO ROLE (DESCRIPTION) VALUES ('ADMIN'), ('MANAGER'),('COMMON_USER');
 
 INSERT INTO `USER` (`user_name`, `full_name`, `password`, `account_non_expired`, `account_non_locked`, `credentials_non_expired`, `enabled`) VALUES
-	('hiep.ho', 'Hiep Ho', '$2a$16$9qr2tv0HmXbHBsx.TZFjfux742wCZM32a8Wi6iBqwIqaizlHPuxHS', true, true, true, true),
-	('kim.le', 'Kim Le', '$2a$16$9qr2tv0HmXbHBsx.TZFjfux742wCZM32a8Wi6iBqwIqaizlHPuxHS', true, true, true, true);
+	('hiep.ho', 'Hiep Ho', '$2a$10$Gq2kTxCythlTKtB59hPdJOvCyasoBUyCe8mbBY.zMXlyqXMFPqEQ.', true, true, true, true),
+	('kim.le', 'Kim Le', '$2a$10$Gq2kTxCythlTKtB59hPdJOvCyasoBUyCe8mbBY.zMXlyqXMFPqEQ.', true, true, true, true);
 
 INSERT INTO `USER_ROLE` (`user_id`, `role_id`) VALUES (1, 1), (1, 2), (2, 3);

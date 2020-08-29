@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private HandlerExceptionResolver handlerExceptionResolver;
 
     @Bean
     public UserDetailsService userDetails() {
@@ -36,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
-
 
     @Bean
     @Override
@@ -81,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                .apply(new JwtConfigurer(jwtTokenProvider, handlerExceptionResolver));
 
         httpSecurity.cors();
     }

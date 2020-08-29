@@ -18,6 +18,9 @@ public class UserDTO {
     @Schema(description = "Password", example = "admin123", required = true)
     private String password;
 
+    @Schema(description = "Full name", example = "Ho Minh Hiep")
+    private String fullName;
+
     @Schema(description = "Token assigned if authenticated", example = "")
     private String token;
 }

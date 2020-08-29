@@ -4,6 +4,8 @@ import com.ez2pay.business.role.Role;
 import com.ez2pay.business.role.RoleRepository;
 import com.ez2pay.security.JwtTokenProvider;
 import com.ez2pay.util.DozerConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,11 +16,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 
 @Service
 public class UserServices implements UserDetailsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServices.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -49,6 +52,10 @@ public class UserServices implements UserDetailsService {
         var user = DozerConverter.parseObject(userDTO, User.class);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setUsername(userDTO.getUsername());
+        user.setFullName(userDTO.getFullName());
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
         user.setEnabled(true);
 
         Role userRole = roleRepository.findByDescription("ADMIN");
@@ -67,6 +74,7 @@ public class UserServices implements UserDetailsService {
             var user = userRepository.findByUsername(username);
 
             if (user != null) {
+
                 token = jwtTokenProvider.creatToken(username, user.getRoles());
 
                 userDTO.setPassword("");
