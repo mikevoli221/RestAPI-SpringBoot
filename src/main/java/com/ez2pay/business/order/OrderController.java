@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     private final OrderServices services;
 
-    @Operation(summary = "Find an order by id", description = "Find an order by id and return the order object")
+    @Operation(summary = "Find an order by id", description = "Find an order by id and return the order object", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the order"),
             @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
@@ -41,7 +42,7 @@ public class OrderController {
     }
 
 
-    @Operation(summary = "Find all orders", description = "Find and return an order object list")
+    @Operation(summary = "Find all orders", description = "Find and return an order object list", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the order list"),
             @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
@@ -57,7 +58,7 @@ public class OrderController {
     }
 
 
-    @Operation(summary = "Create a new order", description = "Create and return a newly added order")
+    @Operation(summary = "Create a new order", description = "Create and return a newly added order", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Order created"),
             @ApiResponse(responseCode = "400", description = "Invalid input item information", content = @Content),
@@ -72,7 +73,7 @@ public class OrderController {
     }
 
 
-    @Operation(summary = "Update an order", description = "Update and return a newly updated order")
+    @Operation(summary = "Update an order", description = "Update and return a newly updated order", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Order updated"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
@@ -88,7 +89,7 @@ public class OrderController {
     }
 
 
-    @Operation(summary = "Cancel an order", description = "Cancel an order and return nothing")
+    @Operation(summary = "Cancel an order", description = "Cancel an order and return nothing", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Order Cancelled"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),

@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,8 +25,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public final ResponseEntity<ExceptionResponse> handleAllException(Exception ex, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleAllException(Exception ex, WebRequest request){
         ex.printStackTrace();
+
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Timestamp(new Date().getTime()),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -40,6 +43,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @Hidden
     public final ResponseEntity<ExceptionResponse> handleNotFoundException(Exception ex, WebRequest request) {
         ex.printStackTrace();
+
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 new Timestamp(new Date().getTime()),
                 HttpStatus.NOT_FOUND.value(),
@@ -64,6 +68,23 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         );
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+
+    @ExceptionHandler({AccessDeniedException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @Hidden
+    public final ResponseEntity<ExceptionResponse> handleAccessDeniedException(Exception ex, WebRequest request) {
+        ex.printStackTrace();
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Timestamp(new Date().getTime()),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
+
 
     @ExceptionHandler({ResourceConflictException.class})
     @ResponseStatus(HttpStatus.CONFLICT)

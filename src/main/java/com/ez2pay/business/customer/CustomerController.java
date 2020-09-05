@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class CustomerController {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerServices services;
 
-    @Operation(summary = "Find a customer by id", description = "Find and return a customer object")
+    @Operation(summary = "Find a customer by id", description = "Find and return a customer object", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the customer"),
             @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content)
@@ -42,7 +43,7 @@ public class CustomerController {
     }
 
 
-    @Operation(summary = "Find a customer by first name", description = "Find and return a customer object")
+    @Operation(summary = "Find a customer by first name", description = "Find and return a customer object", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the customer"),
             @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content)
@@ -55,7 +56,7 @@ public class CustomerController {
         return Customer;
     }
 
-    @Operation(summary = "Find all customers", description = "Find and return a customer object list")
+    @Operation(summary = "Find all customers", description = "Find and return a customer object list", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the customer list"),
             @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content)
@@ -72,7 +73,7 @@ public class CustomerController {
     }
 
 
-    @Operation(summary = "Create a new customer", description = "Create and return a newly added customer", deprecated = true)
+    @Operation(summary = "Create a new customer", description = "Create and return a newly added customer", deprecated = true, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Customer created"),
             @ApiResponse(responseCode = "400", description = "Invalid input customer information", content = @Content),
@@ -87,7 +88,7 @@ public class CustomerController {
     }
 
 
-    @Operation(summary = "Update a customer", description = "Update and return a newly updated customer")
+    @Operation(summary = "Update a customer", description = "Update and return a newly updated customer", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer updated"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
@@ -103,7 +104,7 @@ public class CustomerController {
     }
 
 
-    @Operation(summary = "Update a customer email", description = "Update email and return a newly updated customer")
+    @Operation(summary = "Update a customer email", description = "Update email and return a newly updated customer", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer email updated"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
@@ -119,7 +120,7 @@ public class CustomerController {
     }
 
 
-    @Operation(summary = "Delete a customer", description = "Delete a customer and return nothing")
+    @Operation(summary = "Delete a customer", description = "Delete a customer and return nothing", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Customer deleted"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),

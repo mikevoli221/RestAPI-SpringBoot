@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class InventoryController {
     private static final Logger logger = LoggerFactory.getLogger(InventoryController.class);
     private final InventoryServices services;
 
-    @Operation(summary = "Find an item by id", description = "Find an item by id and return the inventory object")
+    @Operation(summary = "Find an item by id", description = "Find an item by id and return the inventory object", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the item"),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content)
@@ -42,7 +43,7 @@ public class InventoryController {
     }
 
 
-    @Operation(summary = "Find all items", description = "Find and return a item object list")
+    @Operation(summary = "Find all items", description = "Find and return a item object list", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the item list"),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content)
@@ -58,7 +59,7 @@ public class InventoryController {
     }
 
 
-    @Operation(summary = "Create a new item", description = "Create and return a newly added item")
+    @Operation(summary = "Create a new item", description = "Create and return a newly added item", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Item created"),
             @ApiResponse(responseCode = "400", description = "Invalid input item information", content = @Content),
@@ -74,7 +75,7 @@ public class InventoryController {
     }
 
 
-    @Operation(summary = "Update an item", description = "Update and return a newly updated item")
+    @Operation(summary = "Update an item", description = "Update and return a newly updated item", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item updated"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
@@ -90,7 +91,7 @@ public class InventoryController {
     }
 
 
-    @Operation(summary = "Delete an item", description = "Delete an item and return nothing")
+    @Operation(summary = "Delete an item", description = "Delete an item and return nothing", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Item deleted"),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
