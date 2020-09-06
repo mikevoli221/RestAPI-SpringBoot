@@ -10,12 +10,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -28,6 +34,7 @@ public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerServices services;
+    private final PagedResourcesAssembler<CustomerDTO> assembler;
 
     @Operation(summary = "Find a customer by id", description = "Find and return a customer object", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -50,10 +57,25 @@ public class CustomerController {
     })
     @GetMapping("/searchByName/{firstName}")
     @ResponseStatus(code = HttpStatus.OK)
-    public CustomerDTO findCustomerByFirstName(@Parameter(description = "First name of the customer to be searched") @PathVariable("firstName") String firstName) {
-        CustomerDTO Customer = services.findCustomerByFirstName(firstName);
-        Customer.add(linkTo(methodOn(CustomerController.class).findCustomerByFirstName(firstName)).withSelfRel());
-        return Customer;
+    public ResponseEntity<?> findCustomerByFirstName(
+            @Parameter(description = "First name of the customer to be searched") @PathVariable("firstName") String firstName,
+            @Parameter(description = "Page number") @RequestParam(value = "page", defaultValue = "0") int page,
+            @Parameter(description = "Number of records returned") @RequestParam(value = "size", defaultValue = "12") int size,
+            @Parameter(description = "Sort by first name: asc or desc") @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ){
+
+        var sortDirection = direction.equalsIgnoreCase("desc") ? Direction.DESC : Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
+
+        Page<CustomerDTO> customerList = services.findCustomerByFirstName(firstName, pageable);
+        customerList.forEach(customer -> customer.add(
+                linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel()
+                )
+        );
+
+        PagedModel<?> resources =  assembler.toModel(customerList);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @Operation(summary = "Find all customers", description = "Find and return a customer object list", security = @SecurityRequirement(name = "bearerAuth"))
@@ -63,13 +85,23 @@ public class CustomerController {
     })
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<CustomerDTO> findAllCustomer() {
-        List<CustomerDTO> customerList = services.findAllCustomer();
+    public ResponseEntity<?> findAllCustomer(
+            @Parameter(description = "Page number") @RequestParam(value = "page", defaultValue = "0") int page,
+            @Parameter(description = "Number of records returned") @RequestParam(value = "size", defaultValue = "12") int size,
+            @Parameter(description = "Sort by first name: asc or desc") @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ){
+        var sortDirection = direction.equalsIgnoreCase("desc") ? Direction.DESC : Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
+
+        Page<CustomerDTO> customerList = services.findAllCustomer(pageable);
         customerList.forEach(customer -> customer.add(
                     linkTo(methodOn(CustomerController.class).findCustomerById(customer.getId())).withSelfRel()
                 )
         );
-        return customerList;
+
+        PagedModel<?> resources =  assembler.toModel(customerList);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
 

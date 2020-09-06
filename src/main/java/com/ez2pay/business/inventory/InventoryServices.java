@@ -5,9 +5,9 @@ import com.ez2pay.util.DozerConverter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +21,19 @@ public class InventoryServices {
         return DozerConverter.parseObject(entity, InventoryDTO.class);
     }
 
-    public List<InventoryDTO> findAllItem() {
-        return DozerConverter.parseObjectList(repository.findAll(), InventoryDTO.class);
+    public Page<InventoryDTO> findAllItem(Pageable pageable) {
+
+        var page = repository.findAll(pageable);
+
+        //Use method reference
+        return page.map(this::convertToInventoryDTO);
+
+        //Use Lambda expresssion
+        //return page.map(entity -> DozerConverter.parseObject(entity, InventoryDTO.class));
+    }
+
+    private InventoryDTO convertToInventoryDTO (Inventory entity){
+        return DozerConverter.parseObject(entity, InventoryDTO.class);
     }
 
     public InventoryDTO createItem(InventoryDTO item) {

@@ -6,10 +6,10 @@ import com.ez2pay.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +18,18 @@ public class CustomerServices {
     private static final Logger logger = LoggerFactory.getLogger(CustomerServices.class);
     private final CustomerRepository customerRepository;
 
-    public List<CustomerDTO> findAllCustomer() {
-        return DozerConverter.parseObjectList(customerRepository.findAll(), CustomerDTO.class);
+    public Page<CustomerDTO> findAllCustomer(Pageable pageable) {
+        var page = customerRepository.findAll(pageable);
+
+        //Use method reference
+        return page.map(this::convertToCustomerDTO);
+
+        //Use Lambda expresssion
+        //return page.map(entity -> DozerConverter.parseObject(entity, CustomerDTO.class));
+    }
+
+    private CustomerDTO convertToCustomerDTO (Customer entity){
+        return DozerConverter.parseObject(entity, CustomerDTO.class);
     }
 
     public CustomerDTO findCustomerById(Long id) {
@@ -27,9 +37,15 @@ public class CustomerServices {
         return DozerConverter.parseObject(entity, CustomerDTO.class);
     }
 
-    public CustomerDTO findCustomerByFirstName(String firstName) {
-        var entity = customerRepository.findByFirstName(firstName).orElseThrow(() -> new ResourceNotFoundException("No record found for the customer with first name: " + firstName));
-        return DozerConverter.parseObject(entity, CustomerDTO.class);
+    public Page<CustomerDTO> findCustomerByFirstName(String firstName, Pageable pageable) {
+        var page = customerRepository.findByFirstName(firstName, pageable);
+
+        if (page.getTotalElements() == 0){
+            throw new ResourceNotFoundException("No record found for the customer with first name: " + firstName);
+        }
+
+        //Use method reference
+        return page.map(this::convertToCustomerDTO);
     }
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {

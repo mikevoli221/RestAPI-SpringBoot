@@ -10,12 +10,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -28,6 +33,7 @@ public class InventoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryController.class);
     private final InventoryServices services;
+    private final PagedResourcesAssembler<InventoryDTO> assembler;
 
     @Operation(summary = "Find an item by id", description = "Find an item by id and return the inventory object", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -50,12 +56,22 @@ public class InventoryController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<InventoryDTO> findAllItem() {
-        List<InventoryDTO> itemList = services.findAllItem();
+    public ResponseEntity<?> findAllItem(
+            @Parameter(description = "Page number") @RequestParam(value = "page", defaultValue = "0") int page,
+            @Parameter(description = "Number of records returned") @RequestParam(value = "size", defaultValue = "12") int size,
+            @Parameter(description = "Sort by item name: asc or desc") @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ){
+        var sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
+
+        Page<InventoryDTO> itemList = services.findAllItem(pageable);
         itemList.forEach(item -> item.add(
                 linkTo(methodOn(InventoryController.class).findItemById(item.getId())).withSelfRel()
         ));
-        return itemList;
+
+        PagedModel<?> resources = assembler.toModel(itemList);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
 

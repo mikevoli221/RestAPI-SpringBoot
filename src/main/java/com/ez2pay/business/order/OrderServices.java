@@ -11,6 +11,8 @@ import com.ez2pay.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,8 +38,18 @@ public class OrderServices {
         return DozerConverter.parseObject(entity, OrderDTO.class);
     }
 
-    public List<OrderDTO> findAllOrders() {
-        return DozerConverter.parseObjectList(repository.findAll(), OrderDTO.class);
+    public Page<OrderDTO> findAllOrders(Pageable pageable) {
+        var page = repository.findAll(pageable);
+
+        //Use method reference
+        return page.map(this::convertToOrderDTO);
+
+        //Use Lambda expresssion
+        //return page.map(entity -> DozerConverter.parseObject(entity, CustomerDTO.class));
+    }
+
+    private OrderDTO convertToOrderDTO (Order entity){
+        return DozerConverter.parseObject(entity, OrderDTO.class);
     }
 
     @Transactional
