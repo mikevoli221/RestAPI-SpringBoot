@@ -48,6 +48,11 @@ public class CustomerServices {
         return page.map(this::convertToCustomerDTO);
     }
 
+    public CustomerDTO findCustomerByFirstName(String firstName) {
+        var entity = customerRepository.findByFirstName(firstName).orElseThrow(() -> new ResourceNotFoundException("No record found for the customer with first name: " + firstName));
+        return DozerConverter.parseObject(entity, CustomerDTO.class);
+    }
+
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         logger.debug("Original - CustomerDTO: " + Utils.parseObjectToJson(customerDTO));
 

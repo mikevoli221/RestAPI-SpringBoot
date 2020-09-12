@@ -104,7 +104,7 @@ public class CustomerServiceTests {
         //when
         CustomerDTO customerDTO = customerServices.findCustomerByFirstName("Minh Hiep");
 
-        //
+        //then
         then(customerDTO.getCustomerFirstName())
                 .as("Check if found customer has correct first name")
                 .isEqualTo("Minh Hiep");
